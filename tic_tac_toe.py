@@ -1,39 +1,35 @@
-"""
-Pseudocode:
-DEFINE function for start of the game:
-    OUTPUT Welcome message
-    INPUT Name Player 1 (Default: Player1)
-    INPUT Name Player 2 (Default: Player2)
-    OUTPUT basic rules
-        Player1 uses symbol O
-        Player2 uses symbol X
-        Players take turns placing symbols
-
-DEFINE function to create the board
-    Visual idea of board:
-    | 1 | 2 | 3 |
-    | 4 | 5 | 6 |
-    | 7 | 8 | 9 |
-
-DEFINE function for turns
-    CALL function for empty board
-    FOR maximum of 9 turns
-        REPEAT
-            OUTPUT display current board
-            INPUT player move
-            STORE updated board
-        UNTIL winning condition is met
-    OUTPUT winner or draw        
-"""
-
 # Create the board
 def create_board():
-    board = """
-        | 1 | 2 | 3 |\n
-        | 4 | 5 | 6 |\n
-        | 7 | 8 | 9 |
-        """
+    row1 = [1, 2, 3]
+    row2 = [4, 5, 6]
+    row3 = [7, 8, 9]
+    board = [
+        row1,
+        row2,
+        row3
+    ]
     return board
+
+# Print the board
+def print_board(board):
+    print("")
+    print(f"| {board[0][0]} | {board[0][1]} | {board[0][2]} |")
+    print(f"| {board[1][0]} | {board[1][1]} | {board[1][2]} |")
+    print(f"| {board[2][0]} | {board[2][1]} | {board[2][2]} |")
+    print("")
+    return board
+
+# Check if the winning condition is met
+def check_win(board):
+    for row in board:
+        if row[0] == row[1] == row[2]:
+            return(True)
+    if board[0][0] == board[1][1] == board[2][2] or\
+    board[0][2] == board[1][1] == board[2][0] or\
+    board[0][0] == board[1][0] == board[2][0] or\
+    board[0][1] == board[1][1] == board[2][1] or\
+    board[0][2] == board[1][2] == board[2][2]:
+        return(True)
 
 # Tic-tac-toe game
 if __name__ == "__main__":
@@ -43,5 +39,45 @@ if __name__ == "__main__":
     print(f"{P1_name}, your mark is 'O' and {P2_name}, your mark is 'X'.")
     
     board = create_board()
-    print(board)
-    
+    turn = 1
+
+    while turn <= 9:
+        print_board(board)
+        if turn % 2 != 0:
+            P1_set_mark = int(input(f"{P1_name}, set your mark (Choose 1-9). "))
+            for row in board:
+                for idx in row:
+                    if P1_set_mark == idx:
+                        if 1 <= P1_set_mark <= 3:
+                            row[idx-1] = "O"
+                        elif 4 <= P1_set_mark <= 6:
+                            row[idx-4] = "O"
+                        elif 7 <= P1_set_mark <= 9:
+                            row[idx-7] = "O"
+                        else:
+                            print("Please choose another position.")
+            if check_win(board) == True:
+                print_board(board)
+                print(f"Congratulations {P1_name}, you won!")
+                break
+        else:
+            P2_set_mark = int(input(f"{P2_name}, set your mark (Choose 1-9). "))
+            for row in board:
+                for idx in row:
+                    if P2_set_mark == idx:
+                        if 1 <= P2_set_mark <= 3:
+                            row[idx-1] = "X"
+                        elif 4 <= P2_set_mark <= 6:
+                            row[idx-4] = "X"
+                        elif 7 <= P2_set_mark <= 9:
+                            row[idx-7] = "X"
+                        else:
+                            print("Please choose another position.")
+            if check_win(board) == True:
+                print_board(board)
+                print(f"Congratulations {P2_name}, you won!")
+                break
+        turn += 1
+    if turn == 10:
+        print_board(board)
+        print("You reached a draw. Let's go again!")
