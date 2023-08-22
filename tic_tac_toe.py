@@ -1,4 +1,4 @@
-# Version 0.2
+# Version 0.3
 
 # Create the board
 def create_board():
@@ -46,13 +46,38 @@ def check_spot(board, spot):
         return False
     else:
         return True
+    
+# Coin toss in order to randomize which player starts the game.
+def coin_toss(P1_name, P2_name):
+    import random
+    enabler = str(input("Would you like to randomize which player starts? (Please enter Y(es) or N(o)) ")).lower()
+    if enabler == "y" or enabler == "yes":
+        player_begin = random.choice([P1_name, P2_name])
+        if player_begin == P2_name:
+            P1_name, P2_name = P2_name, P1_name
+    elif enabler == "n" or enabler == "no":
+        return P1_name, P2_name
+    else:
+        print("Please only enter y or yes for a randomized start or n or no for a regular start.")
+        coin_toss(P1_name, P2_name)
+    return P1_name, P2_name
+
+# Function to check the given input and set spot for marking
+def set_mark(player_name):
+    while True:
+        try: 
+            spot = int(input(f"{player_name}, set your mark (Choose 1-9). "))
+            return spot
+        except ValueError:
+            print("Please only enter a full number from 1 - 9")
 
 # Tic-tac-toe game
 if __name__ == "__main__":
     print("Welcome to a new round of Tic-Tac-Toe! Please enter your names.")
     P1_name = str(input("Player 1, what is your name? "))
     P2_name = str(input("Player 2, what is your name? "))
-    print(f"{P1_name}, your mark is 'O' and {P2_name}, your mark is 'X'.")
+    P1_name, P2_name = coin_toss(P1_name, P2_name)
+    print(f"{P1_name}, your mark in this round is 'O' and {P2_name}, your mark is 'X'.")
     
     board = create_board()
     turn = 1
@@ -60,7 +85,8 @@ if __name__ == "__main__":
     while turn <= 9:
         print_board(board)
         if turn % 2 != 0:
-            P1_set_mark = int(input(f"{P1_name}, set your mark (Choose 1-9). "))
+            #P1_set_mark = int(input(f"{P1_name}, set your mark (Choose 1-9). "))
+            P1_set_mark = set_mark(P1_name)
             if check_spot(board, P1_set_mark) == False:
                 print("Please choose another position.")
                 continue
@@ -79,7 +105,8 @@ if __name__ == "__main__":
                 print(f"Congratulations {P1_name}, you won!")
                 break
         else:
-            P2_set_mark = int(input(f"{P2_name}, set your mark (Choose 1-9). "))
+            #P2_set_mark = int(input(f"{P2_name}, set your mark (Choose 1-9). "))
+            P2_set_mark = set_mark(P2_name)
             if check_spot(board, P2_set_mark) == False:
                 print("Please choose another position.")
                 continue
