@@ -2,7 +2,7 @@
 - Prompt at the end of the game to start a new game with the same players and marks right away
 - Let players choose their marks
 - Actual coin toss as option for who will start the game - has to include selection of head or tails for one player.
-- Set default names if no input is given for player names
+- Set default names to Player1 and Player2 if no input is given for player names
 - Improve error message for taken spot
 - Create a visual interface
 
@@ -10,7 +10,7 @@
 
 ## Version 0.3 - 2023/08/22
 - Rework of README. Now includes "How to start the game", "Rules" and "Support"
-- Added selection for a randomizer for the starting player
+- Added selection to randomize the starting player
 - Fixed errors for invalid inputs (string or floats) when setting your mark
 
 ## Version 0.2 - 2023/08/21
